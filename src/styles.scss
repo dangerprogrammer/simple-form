@@ -1,1 +1,159 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+}
+
+html {
+    color-scheme: dark;
+    font-family: Poppins;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.main-form {
+    position: relative;
+    --moving: 0;
+    display: flex;
+    font-size: 1.4em;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    background: #3332;
+    padding: 2em min(2vw, 2em);
+    border-radius: 1em;
+    gap: 3em;
+    aspect-ratio: 11 / 8;
+    min-height: 80vh;
+    max-width: 90vw;
+    overflow: hidden;
+}
+
+.circle-follower {
+    position: absolute;
+    pointer-events: none;
+    z-index: 100;
+    height: var(--size);
+    width: var(--size);
+    background: transparent;
+    top: var(--y);
+    left: var(--x);
+    translate: -50% -50%;
+    border-radius: 50%;
+    backdrop-filter: invert(1);
+    opacity: var(--moving);
+    scale: var(--moving);
+    transition: scale .1s, opacity .1s;
+}
+
+.input-container {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    width: 90%;
+
+    .title-input {
+        font-size: .7em;
+        position: absolute;
+        height: 100%;
+        line-height: 2em;
+        pointer-events: none;
+        display: inline-flex;
+        width: 100%;
+        transition: .2s;
+        color: #999;
+
+        span {
+            transition: .2s;
+            transition-delay: calc(var(--i) * 10ms);
+        }
+    }
+
+    input {
+        font-size: 1em;
+        height: 1.5em;
+        background: transparent;
+        border-bottom: 2px solid #aaa;
+        transition: .5s ease-in-out;
+
+        &:valid {
+            border-color: #0f0;
+        }
+    }
+
+    &:has(input:focus, input:required:valid) {
+        .title-input {
+            color: #eee;
+
+            span {
+                transition-delay: calc(var(--i) * 20ms);
+                translate:  0 -75%;
+            }
+        }
+    }
+}
+
+.submit-button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    height: 2em;
+    padding-inline: 3em;
+    font-size: 1em;
+    background: #50f;
+    text-transform: uppercase;
+    border-radius: 3em;
+    font-weight: 700;
+    letter-spacing: .03em;
+    transition: .2s ease-in-out;
+
+    &:hover {
+        background: #62f;
+        letter-spacing: .1em;
+    }
+}
+
+.background-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+
+    .circle-background {
+        position: absolute;
+        height: var(--s);
+        width: var(--s);
+        translate: -50% -50%;
+        background: #f001;
+        filter: hue-rotate(calc(360deg / var(--h))) blur(6rem);
+        border-radius: 50%;
+        animation: animateBall var(--t) linear forwards;
+    }
+}
+
+@keyframes animateBall {
+    0% {
+        top: var(--iY);
+        left: var(--iX);
+    }
+    0%, 100% {
+        opacity: 0;
+    }
+    20%, 80% {
+        opacity: 1;
+    }
+    100% {
+        top: var(--fY);
+        left: var(--fX);
+    }
+}
